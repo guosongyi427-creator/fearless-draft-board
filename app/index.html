@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fearless Draft Board — LoL Draft Organizer for Fearless Draft Series</title>
+<meta name="description" content="A modular League of Legends draft organizer supporting Fearless Draft rules. Track bans, picks, and fearless-locked champions across a best-of series.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">FD</div>
+    <div>
+      <h1>Fearless Draft Board</h1>
+      <p class="subtitle">League of Legends draft organizer &middot; Fearless Draft series tool &middot; Patch <span id="patchLabel">16.23.1</span></p>
+    </div>
+  </div>
+  <div class="series-setup">
+    <label>Blue <input id="teamAName" type="text" value="Cloud9" maxlength="24" aria-label="Blue team name"></label>
+    <span class="score" id="seriesScore">0 &ndash; 0</span>
+    <label>Red <input id="teamBName" type="text" value="Opponents" maxlength="24" aria-label="Red team name"></label>
+    <label>Series
+      <select id="bestOf" aria-label="Best of">
+        <option value="3">BO3</option>
+        <option value="5" selected>BO5</option>
+      </select>
+    </label>
+    <button id="newSeriesBtn" class="btn btn-ghost" type="button">New series</button>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="draft-col">
+    <div class="turn-bar" id="turnBar">
+      <div class="turn-info">
+        <span class="game-label" id="gameLabel">Game 1</span>
+        <span class="phase-label" id="phaseLabel">Ban phase 1</span>
+        <span class="turn-label" id="turnLabel">Blue to ban</span>
+      </div>
+      <div class="turn-actions">
+        <button id="undoBtn" class="btn btn-ghost" type="button" disabled>Undo</button>
+        <button id="finishGameBtn" class="btn btn-primary" type="button" disabled>Finish game</button>
+        <button id="resetGameBtn" class="btn btn-ghost" type="button">Reset game</button>
+      </div>
+    </div>
+
+    <div class="board">
+      <div class="side side-blue" id="blueSide">
+        <div class="side-header"><span class="side-dot"></span><span class="side-name" id="blueName">Cloud9</span><span class="side-tag">BLUE</span></div>
+        <div class="bans"><span class="slot-group-label">Bans</span><div class="ban-slots" id="blueBans"></div></div>
+        <div class="picks" id="bluePicks"></div>
+      </div>
+      <div class="side side-red" id="redSide">
+        <div class="side-header"><span class="side-dot"></span><span class="side-name" id="redName">Opponents</span><span class="side-tag">RED</span></div>
+        <div class="bans"><span class="slot-group-label">Bans</span><div class="ban-slots" id="redBans"></div></div>
+        <div class="picks" id="redPicks"></div>
+      </div>
+    </div>
+
+    <div class="pool-panel">
+      <div class="pool-toolbar">
+        <input id="champSearch" type="search" placeholder="Search champion&hellip;" aria-label="Search champion" autocomplete="off">
+        <div class="lane-filters" role="tablist" aria-label="Filter by lane">
+          <button class="lane-btn active" data-lane="all" type="button">All</button>
+          <button class="lane-btn" data-lane="top" type="button">Top</button>
+          <button class="lane-btn" data-lane="jungle" type="button">Jungle</button>
+          <button class="lane-btn" data-lane="mid" type="button">Mid</button>
+          <button class="lane-btn" data-lane="adc" type="button">ADC</button>
+          <button class="lane-btn" data-lane="support" type="button">Support</button>
+        </div>
+        <label class="toggle"><input id="hideUsed" type="checkbox" checked> Hide unavailable</label>
+      </div>
+      <div class="pool-count" id="poolCount"></div>
+      <div class="champ-grid" id="champGrid"></div>
+    </div>
+  </section>
+
+  <aside class="side-col">
+    <section class="card" id="recoCard">
+      <h2>Pick recommendations</h2>
+      <p class="card-sub" id="recoSub">Select a champion to fill the current slot.</p>
+      <ol class="reco-list" id="recoList"></ol>
+    </section>
+
+    <section class="card" id="fearlessCard">
+      <h2>Fearless locks <span class="pill" id="fearlessCount">0</span></h2>
+      <p class="card-sub">Champions picked in earlier games of this series cannot be picked or banned again.</p>
+      <div class="fearless-list" id="fearlessList"><p class="muted">No champions locked yet. Finish Game 1 to lock its picks.</p></div>
+    </section>
+
+    <section class="card" id="poolHealthCard">
+      <h2>Pool health</h2>
+      <p class="card-sub">Champions still available per lane (not banned, picked, or fearless-locked).</p>
+      <div class="pool-health" id="poolHealth"></div>
+    </section>
+
+    <section class="card" id="historyCard">
+      <h2>Series history</h2>
+      <div class="history-list" id="historyList"><p class="muted">No completed games yet.</p></div>
+      <div class="history-actions">
+        <button id="exportJsonBtn" class="btn btn-ghost" type="button">Export JSON</button>
+        <button id="copySummaryBtn" class="btn btn-ghost" type="button">Copy summary</button>
+      </div>
+    </section>
+
+    <section class="card howto">
+      <h2>How Fearless Draft works</h2>
+      <p>In a Fearless Draft series, any champion <strong>picked</strong> in an earlier game is locked for the rest of the series. Bans reset every game. As the series goes on, the available pool shrinks — especially in roles with fewer champions — so coaches must plan several games ahead.</p>
+      <p>Draft order is the standard pro sequence: 6 bans, 6 picks, 4 bans, 4 picks. Click a champion in the pool to place it in the current slot. Click a filled slot to clear it (only the most recent action can be undone).</p>
+    </section>
+  </aside>
+</main>
+
+<div class="modal-backdrop" id="finishModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="finishTitle">
+    <h2 id="finishTitle">Finish game</h2>
+    <p>Who won this game? Their picks become fearless-locked for the rest of the series.</p>
+    <div class="modal-actions">
+      <button id="winBlueBtn" class="btn btn-blue" type="button">Blue wins</button>
+      <button id="winRedBtn" class="btn btn-red" type="button">Red wins</button>
+      <button id="cancelFinishBtn" class="btn btn-ghost" type="button">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="js/data.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>
