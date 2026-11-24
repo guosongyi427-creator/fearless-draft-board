@@ -1,0 +1,1 @@
+{"description":"League of Legends draft organizer supporting Fearless Draft rules (Cloud9 x JetBrains Hackathon 2026, Category 2)","license":"MIT","name":"fearless-draft-board","private":true,"scripts":{"serve":"python3 -m http.server 8000 --directory app","test":"node tests/run-tests.js","test:e2e":"node tests/cdp-test.mjs"},"version":"1.0.0"}

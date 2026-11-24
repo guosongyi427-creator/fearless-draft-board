@@ -1,0 +1,76 @@
+Invalid type selector (CSS | Invalid elements)
+  Reports a CSS type selector that matches an unknown HTML element.
+  Inspection ID: CssInvalidHtmlTagReference
+
+  ./app/js/ui.js:194     [WARNING] Selector matches unknown element width
+
+Unknown attribute (HTML)
+  Reports an unknown HTML attribute. Suggests configuring attributes that should not be reported.
+  Inspection ID: HtmlUnknownAttribute
+
+  ./app/js/ui.js:82     [WARNING] Attribute EXTERNAL_FRAGMENT is not allowed here
+  ./app/js/ui.js:82     [WARNING] Attribute EXTERNAL_FRAGMENT is not allowed here
+  ./app/js/ui.js:83     [WARNING] Attribute EXTERNAL_FRAGMENT is not allowed here
+
+Non-integer length in pixels (CSS | Probable bugs)
+  Reports a non-integer length in pixels.
+  Example:
+  width: 3.14px
+  Inspection ID: CssNonIntegerLengthInPixels
+
+  ./app/css/style.css:27      [WEAK WARNING] Float px values may render differently on different browsers
+  ./app/css/style.css:41      [WEAK WARNING] Float px values may render differently on different browsers
+  ./app/css/style.css:130     [WEAK WARNING] Float px values may render differently on different browsers
+  ./app/css/style.css:149     [WEAK WARNING] Float px values may render differently on different browsers
+  ./app/css/style.css:204     [WEAK WARNING] Float px values may render differently on different browsers
+
+Unnecessary 'return' statement (JavaScript and TypeScript | Control flow issues)
+  Reports an unnecessary return statement, that is, a return statement that
+  returns no value and occurs just before the function would have "fallen through" the bottom.
+  These statements may be safely removed.
+  Inspection ID: UnnecessaryReturnJS
+
+  ./app/js/ui.js:87     [WARNING] <code>return</code> is unnecessary as the last statement in a function with no return value
+
+Invalid pseudo-selector (CSS | Invalid elements)
+  Reports an incorrect CSS pseudo-class
+  pseudo-element.
+  Inspection ID: CssInvalidPseudoSelector
+
+  ./app/js/ui.js:194     [ERROR] Unknown pseudo selector 'pct'
+
+JQuery selector can be optimized (JavaScript and TypeScript | General)
+  Reports a duplicated jQuery selector that can be cached or a usage of an attribute or a pseudo-selector (optional).
+  Inspection ID: JSJQueryEfficiency
+
+  ./app/js/ui.js:250     [WARNING] Duplicated jQuery selector
+  ./app/js/ui.js:251     [WARNING] Duplicated jQuery selector
+  ./app/js/ui.js:257     [WARNING] Duplicated jQuery selector
+
+Unused local symbol (JavaScript and TypeScript | Unused symbols)
+  Reports an unused locally accessible parameter, local variable, function, class, or private member declaration.
+  Inspection ID: JSUnusedLocalSymbols
+
+  ./app/js/ui.js:23      [WARNING] Unused parameter cls
+  ./app/js/ui.js:101     [WARNING] Unused constant game
+
+Unused selector (CSS)
+  Reports a CSS class or an element IDs that appears in selectors but is not used in HTML.
+  Note that complete inspection results are available only when running it via Code | Inspect Code or
+  Code | Analyze Code | Run Inspection by Name.
+  Due to performance reasons, style sheet files are not inspected on the fly.
+  Inspection ID: CssUnusedSymbol
+
+  ./app/css/style.css:98      [WARNING] Selector ban-slot is never used
+  ./app/css/style.css:102     [WARNING] Selector ban-slot is never used
+  ./app/css/style.css:104     [WARNING] Selector ban-slot is never used
+  ./app/css/style.css:106     [WARNING] Selector ban-slot is never used
+  ./app/css/style.css:154     [WARNING] Selector champ-card is never used
+  ./app/css/style.css:158     [WARNING] Selector champ-card is never used
+  ./app/css/style.css:161     [WARNING] Selector champ-lanes is never used
+  ./app/css/style.css:162     [WARNING] Selector champ-card is never used
+  ./app/css/style.css:163     [WARNING] Selector champ-card is never used
+  ./app/css/style.css:187     [WARNING] Selector fearless-chip is never used
+  ./app/css/style.css:193     [WARNING] Selector health-row is never used
+  ./app/css/style.css:202     [WARNING] Selector h-teams is never used
+
